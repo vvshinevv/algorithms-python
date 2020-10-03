@@ -29,7 +29,10 @@ def input_2_test():
 
 
 if __name__ == '__main__':
-    print_param('PyCharm')
-    dictionary()
+    arr = [[0] * 4 for _ in range(3)]
+    print(arr)
+    # print_param('PyCharm')
+
+    # dictionary()
     # input_test()
-    input_2_test()
+    # input_2_test()
