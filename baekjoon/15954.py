@@ -1,35 +1,22 @@
-import math
 from decimal import Decimal
 
-
-def _f_mean(values):
-    return Decimal(sum(values)) / Decimal(len(values))
-
-
-def _f_std(values):
-    _sum = Decimal(0.0)
-    _mean = _f_mean(values)
-
-    for p in range(0, len(values)):
-        diff = values[p] - _mean
-        _sum += diff * diff
-
-    sd = math.sqrt(_sum / (len(values)))
-    return sd
-
-
 if __name__ == '__main__':
-    n, k = map(int, input().split())
+    N, K = map(int, input().split())
     arr = list(map(int, input().split()))
 
-    result = Decimal(1000.0)
-    for i in range(0, n - k + 1):
-        tmp = []
-        for j in range(0, k):
-            tmp.append(Decimal(arr[j + i]))
+    sums = [0 for i in range(N + 1)]
+    exps = [0 for i in range(N + 1)]
 
-        std = Decimal(_f_std(tmp))
-        if result > std:
-            result = std
+    for i in range(1, len(arr) + 1):
+        sums[i] = sums[i - 1] + arr[i - 1]
+        exps[i] = exps[i - 1] + arr[i - 1] ** 2
 
-    print(result)
+    re = Decimal('INF')
+
+    for i in range(K, N + 1):
+        for j in range(N - i + 1):
+            mean = Decimal(sums[i + j] - sums[j]) / i
+            var = Decimal(exps[i + j] - exps[j]) / i - mean * mean
+            re = min(re, var)
+
+    print(re.sqrt())
